@@ -89,13 +89,13 @@ class CreateEntry extends React.Component
 	{
 		if(this.state.amount > 0)
 		{
-			this.setState({amount: this.state.amount - 1});
+			this.setState({amount: parseInt(this.state.amount, 10) - 1});
 		}
 	}
 
 	increaseAmount = (amount) =>
 	{
-		this.setState({amount: this.state.amount + 1});
+		this.setState({amount: parseInt(this.state.amount, 10) + 1});
 	}
 
 	handleCategorySelected = (aCategory) =>
