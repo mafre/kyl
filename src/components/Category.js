@@ -1,17 +1,19 @@
 import React from 'react'
-import { Button } from 'reactstrap';
+import { Button, Row } from 'reactstrap';
 
 class Category extends React.Component 
 {
   render() 
   {
     return (
-      <li>
-        <Button className="category-button" onClick={this.props.deleteCategory}>
-          x
+      <Row>
+        <div className="category-button">
+          {this.props.label}
+        </div>
+        <Button className="btn btn-link no-padding" onClick={this.props.deleteCategory}>
+          remove
         </Button>
-        {this.props.label}
-      </li>
+      </Row>
     );
   }
 }

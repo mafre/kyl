@@ -19,15 +19,14 @@ const entry = (state, action) => {
 const entries = (state = [], action) => {
   switch (action.type) {
     case SET_AMOUNT:
-      state.map(aEntry => {
+      return state.map(aEntry =>
+      {
         if(aEntry.id === action.id)
         {
           aEntry.amount = action.amount
         }
-
         return aEntry
       })
-      return state
 
     case CREATE_ENTRY:
       return [

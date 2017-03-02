@@ -1,6 +1,5 @@
 import React from 'react'
-import { Form, FormGroup, Label, Input, Button, Col, InputGroup, InputGroupButton } from 'reactstrap';
-import Category from './Category'
+import { Form, FormGroup, Label, Input, Button, Col, Row, InputGroup, InputGroupButton } from 'reactstrap';
 
 class CreateEntry extends React.Component
 {
@@ -17,56 +16,33 @@ class CreateEntry extends React.Component
 		};
   }
 
-	mapCategories = (stateCategory) =>
+  handleSubmit = (event) =>
 	{
-		const filteredCategories = this.props.categories.filter(function(propCategory)
-		{
-			return stateCategory === propCategory.label;
-		});
-
-		return filteredCategories[0];
-	}
-
-  handleSubmit = (e) =>
-	{
-		e.preventDefault()
+		event.preventDefault()
 
 		if (!this.state.label.trim())
 		{
 			return
 		}
 		
-		const categories = this.state.categories.map(this.mapCategories);
-
-		this.props.createEntry(this.state.label, categories, parseInt(this.state.amount, 10));
+		this.props.createEntry(this.state.label, this.state.categories, parseInt(this.state.amount, 10));
 		this.setState({ label: '', category: '', amount: 0, categories: [] });
   }
 
-	createCategory = (aCategory) =>
+	filterPropsCategoryByLabel = (aCategory) =>
 	{
-		if(!aCategory.trim())
+		return aCategory.label === this.state.category;
+	}
+	createCategory = () =>
+	{
+		if(!this.state.category.trim())
 		{
 			return;
 		}
 		
-		var findPropsCategory = this.props.categories.filter(function(category)
+		if(!this.props.categories.some(category => category.label === this.state.category))
 		{
-			return category.label === aCategory;
-		});
-
-		if(findPropsCategory.length === 0)
-		{
-			this.props.createCategory(aCategory);
-		}
-
-		var findStateCategory = this.state.categories.filter(function(category)
-		{
-			return category === aCategory;
-		});
-
-		if(findStateCategory.length === 0)
-		{
-			this.setState({categories: this.state.categories.concat(aCategory)});
+			this.props.createCategory(this.state.category);
 		}
 	}
 
@@ -94,48 +70,102 @@ class CreateEntry extends React.Component
 	handleAmountKeyPress = (event) =>
 	{
 		const re = /[0-9]+/g;
-    if (!re.test(event.key)) {
+    if (!re.test(event.key))
+		{
       event.preventDefault();
     }
 	}
 
+	handleCategoryKeyPress = (event) =>
+	{
+		if (event.key === 'Enter')
+		{
+			event.preventDefault()
+			this.createCategory()
+    }
+	}
+
+	decreaseAmount = (amount) =>
+	{
+		if(this.state.amount > 0)
+		{
+			this.setState({amount: this.state.amount - 1});
+		}
+	}
+
+	increaseAmount = (amount) =>
+	{
+		this.setState({amount: this.state.amount + 1});
+	}
+
+	handleCategorySelected = (aCategory) =>
+	{
+		var newCategories = this.state.categories;
+
+		this.state.categories.some(id => aCategory.id === id) ?
+			newCategories = newCategories.filter((aStateCategory) =>
+			{
+				return aCategory.id !== aStateCategory;
+			})
+			: newCategories = newCategories.concat(aCategory.id)
+			
+		this.setState({categories: newCategories});
+	}
+
   render()
 	{
-		const { label, category, amount, categories } = this.state;
+		const { label, category, amount } = this.state;
+		const categorySelectors = [];
+		var isAdded = false;
+
+		this.props.categories.forEach((category) => 
+    {
+			isAdded = this.state.categories.some(id => category.id === id);
+      categorySelectors.push(
+				<Row key={category.id}>
+					<Col sm="3" xs="0"></Col>
+					<Col sm="9" xs="12">
+						<Label check>
+							<Input
+								type="checkbox"
+								checked={isAdded}
+								onChange={(e) => this.handleCategorySelected(category)}/>
+							{' '}
+							{category.label}
+						</Label>
+					</Col>
+				</Row>);
+    });
 		
     return (
 			<Form onSubmit={(e) => this.handleSubmit(e)}>
 				<FormGroup row>
-					<Label sm={3} for="label">Namn</Label>
-					<Col sm={9}>
+					<Label sm="3" xs="0" for="label">Namn</Label>
+					<Col sm="9" xs="12">
 						<Input type="text" name="label" id="label" value={label} onChange={(e) => this.handleLabelChange(e)} />
 					</Col>
 				</FormGroup>
 				<FormGroup row>
-					<Label sm={3} for="amount">Mängd</Label>
-					<Col sm={9}>
-						<Input type="text" name="amount" id="amount" value={amount} onChange={(e) => this.handleAmountChange(e)} onKeyPress={(e) => this.handleAmountKeyPress(e)} />
-					</Col>
-				</FormGroup>
-				<FormGroup row>
-					<Label sm={3} for="label">Kategori</Label>
-					<Col sm={9}>
+					<Label sm="3" xs="0" for="amount">Mängd</Label>
+					<Col sm="9" xs="12">
 						<InputGroup>
-							<Input type="text" name="category" id="category" value={category} onChange={(e) => this.handleCategoryChange(e)}/>
-							<InputGroupButton type="button" onClick={(e) => this.createCategory(category)}>+</InputGroupButton>
+							<Input type="text" name="amount" id="amount" value={amount} onChange={(e) => this.handleAmountChange(e)} onKeyPress={(e) => this.handleAmountKeyPress(e)} />
+							<InputGroupButton type="button" onClick={(e) => this.decreaseAmount()}>-</InputGroupButton>
+							<InputGroupButton type="button" onClick={(e) => this.increaseAmount()}>+</InputGroupButton>
 						</InputGroup>
 					</Col>
 				</FormGroup>
-				<ul className="no-bullet">
-					{categories.map((category, index) =>
-						<Category
-							key={index}
-							label={category}
-							deleteCategory={(e) => this.deleteCategory(category)} />
-					)}
-				</ul>
+				<FormGroup row>
+					<Label sm="3" xs="0" for="label">Kategori</Label>
+					<Col sm="9" xs="12">
+						<InputGroup>
+							<Input type="text" name="category" id="category" value={category} onChange={(e) => this.handleCategoryChange(e)} onKeyPress={(e) => this.handleCategoryKeyPress(e)} />
+							<InputGroupButton type="button" onClick={(e) => this.createCategory()}>+</InputGroupButton>
+						</InputGroup>
+					</Col>
+				</FormGroup>
+				{categorySelectors}
 				<div className="right">
-					<br/>
 					<Button>OK</Button>
 				</div>
 			</Form>

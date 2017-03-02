@@ -40,10 +40,9 @@ App.propTypes =
   entries: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
     label: PropTypes.string.isRequired,
-    categories: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      label: PropTypes.string.isRequired
-    }).isRequired).isRequired,
+    categories: PropTypes.arrayOf(
+      PropTypes.number.isRequired
+    ).isRequired,
     amount: PropTypes.number.isRequired
   }).isRequired).isRequired,
   categories: PropTypes.arrayOf(PropTypes.shape({
