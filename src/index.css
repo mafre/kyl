@@ -1,0 +1,43 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background-color: #DDD;
+}
+
+.App {
+}
+
+.center {
+  text-align: center;
+}
+
+.right {
+  text-align: right;
+}
+
+.App-header {
+  text-align: center;
+  background-color: #222;
+  padding: 20px;
+  color: white;
+}
+
+.App-section {
+  margin-top: 20px;
+  padding: 20px;
+  font-size: large;
+  background-color: #FFF;
+}
+
+.no-bullet {
+  list-style: none;
+}
+
+.category-button {
+  margin-right: 10px;
+}
+
+.no-padding {
+  padding: 0px;
+}
