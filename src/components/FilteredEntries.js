@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import Entry from '../components/Entry'
 import Category from '../components/Category'
-import { Container } from 'reactstrap';
+import { ListGroup } from 'reactstrap';
 
 class FilteredEntries extends React.Component 
 {
@@ -28,10 +28,11 @@ class FilteredEntries extends React.Component
     }
 
     return (
-      <Container>
+      <ListGroup>
         {category}
         {filteredEntries}
-      </Container>
+        <br/>
+      </ListGroup>
     );
   }
 }

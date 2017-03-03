@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import { Button, ButtonGroup, Row, Col } from 'reactstrap';
+import { Button, ButtonGroup, ListGroupItem } from 'reactstrap';
 
 class Entry extends React.Component 
 {
@@ -23,15 +23,11 @@ class Entry extends React.Component
   render() 
   {
     return (
-      <Row>
-        <Col sm="8" xs="8">
-          {this.props.entry.label}
-        </Col>
-        <Col sm="2" xs="2">
+      <ListGroupItem>
+        {this.props.entry.label}
+        <div className="align-right">
           {this.props.entry.amount}
-        </Col>
-        <Col sm="2" xs="2">
-          <ButtonGroup>
+          <ButtonGroup className="left-margin">
             <Button className="btn btn-secondary btn-sm" type="button" onClick={(e) => this.decreaseAmount()}>
               -
             </Button>
@@ -39,8 +35,8 @@ class Entry extends React.Component
               +
             </Button>
           </ButtonGroup>
-        </Col>
-      </Row>
+        </div>
+      </ListGroupItem>
     );
   }
 }

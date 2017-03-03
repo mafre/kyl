@@ -38,6 +38,16 @@ body {
   margin-right: 10px;
 }
 
+.left-margin {
+  margin-left: 10px;
+}
+
 .no-padding {
   padding: 0px;
+}
+
+.align-right {
+  position: absolute;
+  right: 10px;
+  top: 10px;
 }

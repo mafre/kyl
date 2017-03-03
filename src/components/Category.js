@@ -1,19 +1,19 @@
 import React from 'react'
-import { Button, Row } from 'reactstrap';
+import { Button, ListGroupItem } from 'reactstrap';
 
 class Category extends React.Component 
 {
   render() 
   {
     return (
-      <Row>
+      <ListGroupItem color="info">
         <div className="category-button">
           {this.props.label}
         </div>
-        <Button className="btn btn-link no-padding" onClick={this.props.deleteCategory}>
+        <Button className="btn btn-secondary btn-sm align-right" onClick={this.props.deleteCategory}>
           remove
         </Button>
-      </Row>
+      </ListGroupItem>
     );
   }
 }

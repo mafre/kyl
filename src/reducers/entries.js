@@ -18,15 +18,6 @@ const entry = (state, action) => {
 
 const entries = (state = [], action) => {
   switch (action.type) {
-    case SET_AMOUNT:
-      return state.map(aEntry =>
-      {
-        if(aEntry.id === action.id)
-        {
-          aEntry.amount = action.amount
-        }
-        return aEntry
-      })
 
     case CREATE_ENTRY:
       return [
@@ -41,8 +32,18 @@ const entries = (state = [], action) => {
 
     case DELETE_CATEGORY:
       return state.filter(entry =>
-        entry.categories.some(category => category.id !== action.id)
+        entry.categories.some(category => category.id === action.id)
       )
+    
+    case SET_AMOUNT:
+      return state.map(aEntry =>
+      {
+        if(aEntry.id === action.id)
+        {
+          aEntry.amount = action.amount
+        }
+        return aEntry
+      })
 
     default:
       return state
