@@ -32,7 +32,9 @@ const entries = (state = [], action) => {
 
     case DELETE_CATEGORY:
       return state.filter(entry =>
-        entry.categories.some(category => category.id === action.id)
+        entry.categories.find(aCategory =>
+          aCategory === action.id 
+        ) === undefined
       )
     
     case SET_AMOUNT:
