@@ -35,7 +35,7 @@ describe('entries reducer', () => {
         label: "label",
         categories: [0],
         amount: 1
-      }], 
+      }],
       {
         type: 'DELETE_ENTRY',
         id: 0
@@ -51,12 +51,18 @@ describe('entries reducer', () => {
         label: "label",
         categories: [0],
         amount: 1
-      }], 
+      }],
       {
         type: 'DELETE_CATEGORY',
         id: 0
       })
-    ).toEqual([])
+    ).toEqual(
+    [{
+      id: 0,
+      label: "label",
+      categories: [],
+      amount: 1
+    }])
   })
 
   it('should handle SET_AMOUNT', () => {
@@ -67,7 +73,7 @@ describe('entries reducer', () => {
         label: "label",
         categories: [0],
         amount: 1
-      }], 
+      }],
       {
         type: 'SET_AMOUNT',
         id: 0,

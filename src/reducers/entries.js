@@ -10,7 +10,7 @@ const entry = (state, action) => {
         categories: action.categories,
         amount: action.amount
       }
-      
+
     default:
       return state
   }
@@ -31,12 +31,19 @@ const entries = (state = [], action) => {
       )
 
     case DELETE_CATEGORY:
-      return state.filter(entry =>
-        entry.categories.find(aCategory =>
-          aCategory === action.id 
-        ) === undefined
+      var foundEntry = state.find(aEntry =>
+        aEntry.id === action.id
       )
-    
+
+      if(foundEntry)
+      {
+        foundEntry.categories = foundEntry.categories.filter(aId =>
+          aId !== action.id
+        )
+      }
+
+      return state
+
     case SET_AMOUNT:
       return state.map(aEntry =>
       {
