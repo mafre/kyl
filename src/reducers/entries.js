@@ -31,14 +31,10 @@ const entries = (state = [], action) => {
       )
 
     case DELETE_CATEGORY:
-      var foundEntry = state.find(aEntry =>
-        aEntry.id === action.id
-      )
-
-      if(foundEntry)
+      for(var aEntry of state)
       {
-        foundEntry.categories = foundEntry.categories.filter(aId =>
-          aId !== action.id
+        aEntry.categories = aEntry.categories.filter(aCategoryId =>
+          aCategoryId !== action.id
         )
       }
 
